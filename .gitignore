@@ -1,0 +1,7 @@
+src/nonlinear/nl_const.m
+slprj/
+*.slxc
+*.asv
+*.autosave
+octave-workspace
+codegen/

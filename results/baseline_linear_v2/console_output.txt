@@ -1,0 +1,100 @@
+Baseline created 01-Oct-2026 02:33:27
+Conditions: act_on = 0, sens_on = 0 for the first stage (the compare and
+Monte Carlo scripts set their own actuator/sensor cases).
+
+================ simulink_multiseed_summary ================
+Seed block: Flight_simulator/Aircraft Model/Gust Disturbance (Dryden)/Dryden Wind Turbulence Model 
+(Continuous (+q +r))  (Seed = [1030 1031 1032 1033])
+seed 1/10 done
+seed 2/10 done
+seed 3/10 done
+seed 4/10 done
+seed 5/10 done
+seed 6/10 done
+seed 7/10 done
+seed 8/10 done
+seed 9/10 done
+seed 10/10 done
+
+Mean +/- std over 10 seeds
+                          Open loop           Dampers             Alt/speed hold      Hold + track        
+rms bank [deg]            0.59 +/- 0.02       0.71 +/- 0.06       0.72 +/- 0.04       1.59 +/- 0.11       
+rms pitch dev [deg]       2.36 +/- 0.42       0.51 +/- 0.03       1.96 +/- 0.39       1.96 +/- 0.39       
+rms altitude dev [m]      54.20 +/- 28.17     52.19 +/- 28.28     3.63 +/- 0.64       3.63 +/- 0.65       
+max |altitude dev| [m]    106.36 +/- 37.18    96.82 +/- 39.57     9.76 +/- 1.69       9.76 +/- 1.69       
+rms along-track [m]       13.45 +/- 3.54      5.63 +/- 1.43       18.45 +/- 5.05      18.60 +/- 5.08      
+rms cross-track [m]       7.55 +/- 5.11       49.87 +/- 29.18     51.20 +/- 27.33     6.00 +/- 0.64       
+
+================ flying_qualities_check ================
+Flying qualities, Class I, Category B, Level 1 limits
+
+Longitudinal
+                               short period               phugoid               
+Open loop                      zeta=0.576 wn= 3.58  ok     zeta= 0.075  ok  
+Pitch damper                   zeta=0.700 wn= 3.93  ok     zeta= 0.087  ok  
+Pitch damper + attitude hold   zeta=0.597 wn= 4.19  ok     zeta=   NaN  ok  
+  limits: short-period zeta 0.30 to 2.00, phugoid zeta >= 0.04
+
+Lateral-directional
+                               Dutch roll                               roll mode          spiral              
+Open loop                      zeta=0.229 wn= 2.41 zwn= 0.55  ok    T= 0.12 s  ok    stable (T=2050 s)  ok  
+Yaw damper                     zeta=0.500 wn= 2.45 zwn= 1.22  ok    T= 0.12 s  ok    stable (T=14 s)  ok  
+Yaw + roll damper              zeta=0.500 wn= 2.45 zwn= 1.22  ok    T= 0.12 s  ok    stable (T=14 s)  ok  
+  limits: Dutch roll zeta >= 0.08, zeta*wn >= 0.15, wn >= 0.40;  roll T <= 1.4 s;  spiral T2 >= 20 s
+
+================ simulink_actuator_compare ================
+seed 1/10 done
+seed 2/10 done
+seed 3/10 done
+seed 4/10 done
+seed 5/10 done
+seed 6/10 done
+seed 7/10 done
+seed 8/10 done
+seed 9/10 done
+seed 10/10 done
+
+Mean +/- std over 10 seeds (full controller)
+                        Ideal               +Actuators          +Act+Sensors        
+rms bank [deg]          1.59 +/- 0.11       1.59 +/- 0.11       1.58 +/- 0.11       
+rms pitch dev [deg]     1.96 +/- 0.39       1.97 +/- 0.40       1.97 +/- 0.40       
+rms altitude dev [m]    3.63 +/- 0.65       3.76 +/- 0.68       3.76 +/- 0.68       
+rms cross-track [m]     6.00 +/- 0.64       6.00 +/- 0.64       5.98 +/- 0.64       
+runs bounded            10/10               10/10               10/10               
+
+================ robustness_montecarlo_act ================
+Model rebuild check (max Frobenius error vs scripts): 0.00e+00
+Builder check, longitudinal: max eigenvalue difference 0.00e+00
+Builder check, lateral:      max eigenvalue difference 0.00e+00
+
+Nominal margins with actuators and sensors (other loops closed):
+  input      gain range [dB]            delay margin  
+  elevator    -30.0 ...  +19.4          > 0.60 s
+  thrust      -30.0 ...  +30.0          > 0.60 s
+  aileron     -23.6 ...   +9.5          0.400 s
+  rudder      -30.0 ...  +21.4          > 0.60 s
+
+Monte Carlo, 2000 samples per scale (scale 1: derivatives +/-20%, Cm_alpha +/-30%, mass +/-10%, inertia +/-15%)
+Actuators: servo wn 15 rad/s zeta 0.70, thrust lag 1.0 s, sensor lag 0.020 s
+Gust: Dryden transverse, L = 533 m, rms 0.039 rad (lon), 0.020 rad (lat)
+
+--- scale 1 detail ---
+Stable closed loops           ideal     realistic
+  alt + speed hold           100.0 %    100.0 %
+  cross-track hold           100.0 %    100.0 %
+rms under gust, 5th / median / 95th percentile   ideal                     realistic
+  altitude [m]             3.28 /    3.61 /    4.11        3.35 /    3.71 /    4.27
+  bank [deg]               1.09 /    1.13 /    1.18        1.09 /    1.13 /    1.18
+  cross-track [m]          8.57 /    8.66 /    8.78        8.57 /    8.65 /    8.77
+scale 1 done
+scale 1.5 done
+scale 2 done
+scale 3 done
+
+Results versus uncertainty size (realistic plant, all values in % unless noted)
+scale   stab lon  stab lat  | SP Cat B   DR Cat B   DR Cat A   | DR Cat B (OL)  DR Cat A (OL)  | roll B    | alt med/p95 
+1       100.0     100.0     | 100.0      100.0      100.0      | 100.0          97.0           | 100.0     | 3.7 / 4.3 m
+1.5     100.0     100.0     | 100.0      100.0      100.0      | 100.0          87.5           | 100.0     | 3.7 / 4.7 m
+2       100.0     100.0     | 100.0      100.0      100.0      | 100.0          78.5           | 100.0     | 3.7 / 5.4 m
+3       99.5      97.7      | 100.0      99.4       99.2       | 99.5           68.2           | 100.0     | 3.8 / 8.0 m
+(OL = open loop, no control system)
