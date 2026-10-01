@@ -2,9 +2,9 @@
 
 Autopilot design and robustness study for the Navion light aircraft, built in MATLAB and Simulink. Controllers are designed on linear models, then validated on a nonlinear 12-state rigid-body model under Dryden turbulence, realistic actuators and sensor lags, parameter uncertainty and large-amplitude maneuvers.
 
-![Commanded track, uncontrolled and controlled aircraft in the same gust](results/media/nl_flight_snap_t100.png)
+![Commanded track, uncontrolled and controlled aircraft in the same gust](results/media/nl_flight.gif)
 
-*Same Dryden gust, same start 250 m off the track: green is the commanded track, orange the open-loop aircraft, blue the aircraft with the autopilot ([video](results/media/nl_flight.mp4)).*
+*Same Dryden gust, same start 250 m off the track: green is the commanded track, orange the open-loop aircraft, blue the aircraft with the autopilot ([full-quality video](results/media/nl_flight.mp4)).*
 
 ## Highlights
 
