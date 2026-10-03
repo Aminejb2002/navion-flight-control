@@ -6,10 +6,14 @@ Autopilot design and robustness study for the Navion light aircraft, built in MA
 
 *Same Dryden gust, same start 250 m off the track: green is the commanded track, orange the open-loop aircraft, blue the aircraft with the autopilot ([full-quality video](results/media/nl_flight.mp4)).*
 
+![Cockpit replay of a controlled flight of the nonlinear model](results/media/nl_cockpit.gif)
+
+*The same controlled flight from the cockpit: chase camera and flight instruments, Dryden gust at twice nominal, starting 40 m off the track, real time ([full-quality video](results/media/nl_cockpit.mp4)). The scenery is schematic.*
+
 ## Highlights
 
 - **Gust rejection:** under Dryden turbulence the altitude/speed hold cuts the rms altitude deviation from about 54 m to 3.7 m, and the track hold brings the rms cross-track error from over 700 m (open loop, nonlinear) to 6.2 m.
-- **Linear design carries over to the nonlinear plant:** with the full controller, rms altitude, pitch, bank and cross-track agree within about 2-6 % between the linear and the nonlinear model (10 gust seeds).
+- **Linear design carries over to the nonlinear plant:** with the full controller, rms altitude, bank and cross-track agree within about 1-4 % between the linear and the nonlinear model (10 gust seeds); single-seed time histories agree within 2-6 %.
 - **Realistic hardware barely matters:** second-order servos (15 rad/s, 25° and 30°/s limits), thrust lag and sensor lag raise the rms altitude deviation by about 4 %; 10 of 10 runs stay bounded.
 - **Level 1 flying qualities** (MIL-F-8785C, Class I, Category B) for short period, phugoid, Dutch roll, roll mode and spiral.
 - **Robust over parameter uncertainty:** 2000-sample Monte Carlo per uncertainty level; 100 % of closed loops are stable at ±20 % derivative / ±10 % mass uncertainty, and still 97.7-99.5 % at three times that.
@@ -130,7 +134,7 @@ analysis/           flying-qualities check, Monte Carlo robustness study
 experiments/        Simulink studies: multi-seed, actuators, maneuvers, gust severity
 tests/              nonlinear-vs-linear checks
 tools/              build the nonlinear model, freeze the result baselines
-visualization/      3-D flight animation
+visualization/      3-D flight animation and cockpit replay
 results/            frozen baselines (tables, figures) and media
 ```
 
@@ -149,9 +153,12 @@ nl_maneuvers                     % large-amplitude recovery table
 nl_gust_severity                 % gust-scale sweep, linear vs nonlinear
 robustness_montecarlo_act        % Monte Carlo robustness study
 nl_flight_viz                    % 3-D animation, writes to results/media
+nl_flight_cockpit                % chase-camera replay with flight instruments, writes nl_cockpit.mp4
 
 freeze_nl_baseline               % full nonlinear test suite, 20-30 minutes
 ```
+
+`nl_flight_cockpit` simulates one controlled flight of the nonlinear model and replays it from a chase camera next to attitude, speed, altitude, heading, climb rate and track/altitude error indicators. The scenery is schematic and the airfield is a flyby, not a landing. By default the flight is 60 s, starts 40 m off the track and plays in real time. The starting offset, gust scale, seed, duration and playback speed are options, for example `nl_flight_cockpit('offset', 250, 'speedup', 2)`.
 
 The scripts accept the model name through the base-workspace variable `sim_model` (default `Flight_simulator`). Model initialization runs `navion_params`, `actuator_params`, both design scripts and `nl_setup`; the nonlinear constants are written to `src/nonlinear/nl_const.m` and are not tracked.
 
